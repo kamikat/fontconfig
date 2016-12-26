@@ -1,14 +1,10 @@
-fontconfig profile
-==================
+fontconfig
+==========
 
-This repository contains a customized configuration file to
-[fontconfig](http://fontconfig.org) with a comfortable look on CJK
-characters.
+This repository contains a set of [fontconfig](http://fontconfig.org) configuration file to
+improve CJK display on Linux desktop environment with reasonable font fallback configuration.
 
-Currently, Chinese and Japanese profile are supported.
-
-The main work on this configuration is to make a reasonable font fallback
-strategy.
+Support both Chinese and Japanese.
 
 Prerequisite
 ------------
@@ -21,8 +17,7 @@ You are expected to have following fonts in your fonts path:
 * `/usr/local/share/fonts`
 * `$XDG_DATA_HOME/fonts` defaults to `~/.local/share/fonts`
 
-(`~/.fonts` directory is deprecated, and it's support will be
-removed in the future)
+(`~/.fonts` directory is deprecated, and it's support will be removed in the future)
 
 **ASCII Font Support**
 
@@ -54,79 +49,61 @@ removed in the future)
 
 First, use `fc-list` to check for all available fonts you will need.
 
-`DejaVu` font series are commonly installed by default across various
-distributions. You can get Adobe&copy; Fonts from its product granted.
+`DejaVu` font series are available across most distributions.
+You can get Adobe&copy; Fonts from its product granted.
 
 "[Courier X](https://github.com/thynson/Courier-X-Fonts)" and
-"[Courier Typewritter](https://github.com/kirisetsz/Courier-Typewritter-Fonts)"
-can be obtained from their github pages.
+"[Courier Typewritter](https://github.com/kamikat/Courier-Typewritter-Fonts)"
+can be obtained from GitHub.
 
-As for other missing font, refer to font wiki of your linux distribution to find packages.
-Or, just find the font file and install them to the paths.
+As for other missing font, refer to font [wiki](http://fedoraproject.org/wiki/Category:Packaged_fonts)
+of your distribution to get packages. Or just get font file from Internet.
 
-And for me, it's
-[fedora wiki](http://fedoraproject.org/wiki/Category:Packaged_fonts)
+On Fedora, `yum install stix-fonts ipa-*-fonts google-droid-*-fonts` should install
+all fonts required from repository.
 
-And `yum install stix-fonts ipa-*-fonts google-droid-*-fonts` should install
-all fonts available from repository.
+Usage
+-----
 
-Application
------------
+Download the repository to `$XDG_CONFIG_HOME/fontconfig` and
+in most cases `$XDG_CONFIG_HOME` refers to `~/.config`.
 
-Typically, the repository is located at `$XDG_CONFIG_HOME/fontconfig`
-in which `$XDG_CONFIG_HOME` refers to `~/.config` if not specified.
-
-Thus, if you have not yet set your fontconfig, use following script to
-checkout the repository.
-
-```shell
-
+```sh
 cd ~/.config # Default $XDG_CONFIG_HOME
 git clone https://github.com/kirisetsz/fontconfig.git
-
 ```
 
-Otherwise, you are expected to backup your configuration first and put your
-customization into `~/.config/fontconfig/conf.d/` which will be
-automatically included to the configuration.
-**Any help from your fork is welcomed :)**
+If `fontconfig` exists, backup configuration and put them to `conf.d/` folder of current project.
 
-The repository, by default, enables Chinese font solution. When you'd like
-to have a tweak, simply refers to `conf.avail` to check for avaliable
-options.
-
-Enable options by manage symbolic link
-(`ln -s ./conf.avail/??-XXX.conf ./conf.d/`)
-
-Disable the option just remove the link from `conf.d`
+The repository, Chinese configurations are activated by default.
+Check `conf.avail` for all avaliable options and pick up your settings.
 
 40-console.conf
 ---------------
 
-This configuration exports a font shortcut called `Console`.
+This configuration exposes a font shortcut called `Console`.
 It's designed to be used under terminal with
 [Courier X](https://github.com/thynson/Courier-X-Fonts) and
 Adobe Fangsong Std font family
 
-You cannot pickup the font shortcut directly from a gtk font chooser.
-Thus, one can use `dconf` to enable the font on a gnome-terminal or some
-other terminal emulators.
+You may not find the font shortcut from a gtk font chooser.
+If you'd like to have a try, enable it from `dconf` for Gnome Terminal:
 
-For gnome-terminal,
-find out profile id using `dconf list /org/gnome/terminal/legacy/profiles:/`
+```sh
+# list all profiles
+dconf list /org/gnome/terminal/legacy/profiles:/
+# set font of profile
+dconf write /org/gnome/terminal/legacy/profiles:/$PROFILE_ID/font "'Console 14'"
+```
 
-Then, write the font setting to the profile
-`dconf write /org/gnome/terminal/legacy/profiles:/<Profile ID>/font "'Console 14'"`
+For more information about the configuration detail, see <http://www.freedesktop.org/wiki/Software/fontconfig/>
 
-For more information about the configuration detail, see
-<http://www.freedesktop.org/wiki/Software/fontconfig/>
-
-Contributor
------------
+Contributors
+------------
 
 Thynson &lt;thynson&#x2606;dummi.org&gt;
 
-kirisetsz &lt;trinity&#x2605;dummi.org&gt;
+Kamikat &lt;misaka&#x2605;dummi.org&gt;
 
 License
 -------
